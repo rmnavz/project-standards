@@ -59,6 +59,7 @@ jobs:
       - name: Push to NuGet.org
         if: github.event.inputs.push-to-nuget == 'true'
         env:
+          # Note: This secret needs to be created in GitHub repository settings
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
           # Check if the NuGet API key is set

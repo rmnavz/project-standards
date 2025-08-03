@@ -74,7 +74,11 @@ To create symbolic links (symlinks) for configuration files (recommended for eas
 ln -s $(pwd)/project-standards/config/.prettierrc your-project/.prettierrc
 ```
 
+```
+
 **Note for Windows users:** Symlink support requires Developer Mode. Run the above command in Git Bash or WSL.
+
+## 📝 Prerequisites
 
 ## 📝 Prerequisites
 
