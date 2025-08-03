@@ -1,0 +1,39 @@
+# Release workflow for .NET Application
+name: .NET Application Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      project-path:
+        description: 'Path to .csproj file'
+        required: true
+        default: 'src/YourApp/YourApp.csproj'
+        type: string
+
+jobs:
+  release-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ github.event.inputs.project-path }}
+
+      - name: Build
+        run: dotnet build ${{ github.event.inputs.project-path }} --configuration Release --no-restore
+
+      - name: Publish Application
+        run: dotnet publish ${{ github.event.inputs.project-path }} --configuration Release --output ./publish
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./publish/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

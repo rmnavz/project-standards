@@ -1,0 +1,28 @@
+# Dockerfile for .NET SDK build environment
+# Use official .NET SDK image
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+
+WORKDIR /app
+
+# Copy project files
+COPY . ./
+
+# Restore dependencies
+RUN dotnet restore
+
+# Build the project (Release by default)
+RUN dotnet build --configuration Release --no-restore
+
+# Optional: Run tests
+# RUN dotnet test --no-build --verbosity normal
+
+# Publish the application (for web/service projects)
+# RUN dotnet publish --configuration Release --output /app/publish --no-build
+
+# Final image (runtime only, if needed)
+# FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+# WORKDIR /app
+# COPY --from=build /app/publish ./
+# ENTRYPOINT ["dotnet", "YourApp.dll"]
+
+# For package/library builds, the output will be in /app/bin/Release

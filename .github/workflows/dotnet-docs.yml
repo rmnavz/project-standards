@@ -1,0 +1,53 @@
+name: .NET Documentation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - '**.md'
+      - '**.cs'
+      - 'docfx.json'
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install DocFX
+        run: dotnet tool install -g docfx
+
+      - name: Set Documentation Flag
+        run: |
+          find . -name "*.csproj" -type f -exec sed -i 's|<PropertyGroup>|<PropertyGroup>\n    <GenerateDocumentationFile>true</GenerateDocumentationFile>|' {} \;
+
+      - name: Generate API documentation
+        run: |
+          dotnet build --configuration Release
+          docfx metadata docfx.json
+
+      - name: Build documentation
+        run: docfx build docfx.json
+
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _site
+          force_orphan: true
+          commit_message: "docs: update documentation"
+
+      - name: Upload documentation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: _site/
+          retention-days: 30

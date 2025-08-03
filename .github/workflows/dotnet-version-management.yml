@@ -1,0 +1,71 @@
+name: .NET Version Management
+
+on:
+  workflow_dispatch:
+    inputs:
+      version-type:
+        description: 'Version increment type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      project-path:
+        description: 'Path to .csproj file'
+        required: true
+        type: string
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Get current version
+        id: current_version
+        run: |
+          VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" "${{ github.event.inputs.project-path }}")
+          echo "current_version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Calculate new version
+        id: semver
+        uses: paulhatch/semantic-version@v5.3.0
+        with:
+          tag_prefix: "v"
+          major_pattern: "major"
+          minor_pattern: "minor"
+          version_format: "${major}.${minor}.${patch}"
+          bump_each_commit: false
+          search_commit_body: true
+          user_format_type: "csv"
+          enable_prerelease_mode: true
+
+      - name: Update csproj version
+        run: |
+          sed -i "s|<Version>.*</Version>|<Version>${{ steps.semver.outputs.version }}</Version>|" "${{ github.event.inputs.project-path }}"
+
+      - name: Generate changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v4
+        with:
+          fromTag: ${{ steps.current_version.outputs.current_version }}
+          toTag: ${{ steps.semver.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create commit and tag
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add "${{ github.event.inputs.project-path }}"
+          git commit -m "chore: bump version to ${{ steps.semver.outputs.version }}"
+          git tag "v${{ steps.semver.outputs.version }}" -m "Release ${{ steps.semver.outputs.version }}"
+          git push origin main --tags
