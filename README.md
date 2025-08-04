@@ -1,6 +1,5 @@
 # Project Standards
 
-
 Welcome! This repository is my personal collection of standards, templates, and automation tools for software projects. I created it to help myself stay organized and consistent across all my work—whether open source, private, or experimental. If you’re looking for a starting point to unify your own project workflows, feel free to use or adapt anything here.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -13,8 +12,7 @@ Welcome! This repository is my personal collection of standards, templates, and 
   - [🎯 Purpose](#-purpose)
   - [📂 Repository Structure](#-repository-structure)
   - [🚀 Quick Start](#-quick-start)
-  - [🚀 Quick Start](#-quick-start-1)
-  - [📝 Prerequisites](#-prerequisites)
+  - [� Prerequisites](#-prerequisites)
   - [✨ Features](#-features)
   - [🛠️ Usage](#️-usage)
   - [🤝 Contributing](#-contributing)
@@ -61,10 +59,6 @@ This repository is my personal toolkit for keeping all my development standards,
 
 ## 🚀 Quick Start
 
-
-
-## 🚀 Quick Start
-
 Clone the repository and copy or symlink the desired files:
 
 ```bash
@@ -86,7 +80,6 @@ ln -s $(pwd)/project-standards/config/tasks.json your-project/.vscode/tasks.json
 
 **Note for Windows users:** Symlink support requires Developer Mode. Run the above command in Git Bash or WSL.
 
-
 ## 📝 Prerequisites
 
 To use the scripts, templates, and workflows in this repository, you may need:
@@ -101,7 +94,6 @@ Optional:
 
 - **Node.js** (if using JavaScript/Node-based scripts or configs)
 - **CI/CD platform** (e.g., GitHub Actions)
-
 
 ## ✨ Features
 
@@ -121,7 +113,6 @@ This repository provides a collection of reusable components to streamline devel
    - Standard [`LICENSE`](LICENSE) for open-source projects.
 7. **Changelog & DocFX**
    - [`CHANGELOG.md`](CHANGELOG.md) and [`docfx.json`](docfx.json) for documentation and release tracking.
-
 
 ## 🛠️ Usage
 
@@ -161,7 +152,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## 🗂️ Versioning & Changelog
 
 Updates to standards, templates, and scripts are tracked using git tags and releases. Major changes and improvements are documented in the `CHANGELOG.md` file (if present). For the latest updates, check the [Releases](https://github.com/rmnavz/project-standards/releases) page or view commit history.
-
 
 ## 💡 Request a New Standard or Template
 

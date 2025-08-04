@@ -22,11 +22,15 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Install DocFX
-        run: dotnet tool install -g docfx
+        run: dotnet tool install -g docfx --version 2.70.0
 
-      - name: Set Documentation Flag
+      - name: Set Documentation Flag (idempotent)
         run: |
-          find . -name "*.csproj" -type f -exec sed -i 's|<PropertyGroup>|<PropertyGroup>\n    <GenerateDocumentationFile>true</GenerateDocumentationFile>|' {} \;
+          for file in $(find . -name "*.csproj" -type f); do
+            if ! grep -q "<GenerateDocumentationFile>" "$file"; then
+              sed -i 's|<PropertyGroup>|<PropertyGroup>\n    <GenerateDocumentationFile>true</GenerateDocumentationFile>|' "$file"
+            fi
+          done
 
       - name: Generate API documentation
         run: |
