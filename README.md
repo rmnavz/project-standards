@@ -1,11 +1,7 @@
 # Project Standards
 
-Welcome! This repository is my personal collection of standards, templates, and automation tools for software projects. I cre## 💡 Request a New Standard or Template
 
-If you have an idea for a new standard, template, or script that could be useful, you're welcome to suggest it! You can:
-
-- Open an issue describing your suggestion
-- Submit a pull request with your proposed additiont to help myself stay organized and consistent across all my work—whether open source, private, or experimental. If you’re looking for a starting point to unify your own project workflows, feel free to use or adapt anything here.
+Welcome! This repository is my personal collection of standards, templates, and automation tools for software projects. I created it to help myself stay organized and consistent across all my work—whether open source, private, or experimental. If you’re looking for a starting point to unify your own project workflows, feel free to use or adapt anything here.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Last Commit](https://img.shields.io/github/last-commit/rmnavz/project-standards.svg)](https://github.com/rmnavz/project-standards/commits/main)
@@ -17,12 +13,10 @@ If you have an idea for a new standard, template, or script that could be useful
   - [🎯 Purpose](#-purpose)
   - [📂 Repository Structure](#-repository-structure)
   - [🚀 Quick Start](#-quick-start)
+  - [🚀 Quick Start](#-quick-start-1)
   - [📝 Prerequisites](#-prerequisites)
   - [✨ Features](#-features)
   - [🛠️ Usage](#️-usage)
-    - [Call Reusable Workflows](#call-reusable-workflows)
-    - [Copy Files](#copy-files)
-    - [Symlink Configurations](#symlink-configurations)
   - [🤝 Contributing](#-contributing)
   - [📄 License](#-license)
   - [🗂️ Versioning \& Changelog](#️-versioning--changelog)
@@ -36,49 +30,62 @@ This repository is my personal toolkit for keeping all my development standards,
 
 ```text
 .
-├── .github/
-│   ├── workflows/             # Reusable GitHub Actions workflows.
-│   │   ├── reusable-build.yml
-│   │   └── reusable-deploy.yml
-│   ├── ISSUE_TEMPLATE/        # Issue templates for standardizing bug reports and feature requests.
-│   └── pull_request_template.md # Template for all pull requests.
-├── docs/                      # Centralized documentation templates.
+├── .github/                      # GitHub Actions workflows and templates
+│   ├── workflows/                # CI/CD, release, docs, security, and version management workflows
+│   │   ├── dotnet-ci.yml
+│   │   ├── dotnet-docs.yml
+│   │   ├── dotnet-release-app.yml
+│   │   ├── dotnet-release-nuget.yml
+│   │   ├── dotnet-security.yml
+│   │   ├── dotnet-test.yml
+│   │   └── dotnet-version-management.yml
+│   ├── ISSUE_TEMPLATE/           # Issue templates for bug reports and feature requests
+│   │   ├── bug_report.md
+│   │   └── feature_request.md
+│   └── pull_request_template.md  # Template for all pull requests
+├── docs/                         # Centralized documentation templates
 │   ├── README_TEMPLATE.md
 │   └── CONTRIBUTING_TEMPLATE.md
-├── scripts/                   # Shared scripts for common automation tasks.
-│   ├── lint.sh
-│   └── setup.sh
-├── config/                    # Shared configuration files.
-│   ├── .eslintrc.js
-│   └── .prettierrc
-├── images/                    # Reusable Dockerfiles for consistent build environments.
-│   └── Dockerfile.node
-└── LICENSE                    # Standardized license template.
+├── scripts/                      # Shared scripts for common automation tasks
+│   ├── lint.sh                   # Linting and code style checks for .NET
+│   └── setup.sh                  # Automated .NET project setup
+├── config/                       # Shared configuration files
+│   ├── launch.json               # VS Code launch configuration for .NET
+│   └── tasks.json                # VS Code build/test/publish tasks for .NET
+├── images/                       # Reusable Dockerfiles for build environments
+│   └── Dockerfile.dotnet         # Dockerfile for .NET environment
+├── CHANGELOG.md                  # Project changelog
+├── docfx.json                    # DocFX configuration for documentation
+└── LICENSE                       # Standardized license template
 ```
 
 ## 🚀 Quick Start
 
 
+
+## 🚀 Quick Start
+
 Clone the repository and copy or symlink the desired files:
 
 ```bash
 git clone https://github.com/rmnavz/project-standards.git
-cp project-standards/config/.eslintrc.js your-project/
+cp project-standards/config/launch.json your-project/.vscode/launch.json
+cp project-standards/config/tasks.json your-project/.vscode/tasks.json
 cp project-standards/docs/README_TEMPLATE.md your-project/README.md
+cp project-standards/docs/CONTRIBUTING_TEMPLATE.md your-project/CONTRIBUTING.md
+cp project-standards/images/Dockerfile.dotnet your-project/Dockerfile
 ```
 
 To create symbolic links (symlinks) for configuration files (recommended for easy updates):
 
 ```bash
 # On Unix-like systems or Windows with Developer Mode enabled
-ln -s $(pwd)/project-standards/config/.prettierrc your-project/.prettierrc
-```
-
+ln -s $(pwd)/project-standards/config/launch.json your-project/.vscode/launch.json
+ln -s $(pwd)/project-standards/config/tasks.json your-project/.vscode/tasks.json
 ```
 
 **Note for Windows users:** Symlink support requires Developer Mode. Run the above command in Git Bash or WSL.
 
-## 📝 Prerequisites
 
 ## 📝 Prerequisites
 
@@ -95,50 +102,52 @@ Optional:
 - **Node.js** (if using JavaScript/Node-based scripts or configs)
 - **CI/CD platform** (e.g., GitHub Actions)
 
+
 ## ✨ Features
 
 This repository provides a collection of reusable components to streamline development:
 
 1. **Shared Scripts and Tooling**
-   - Flexible scripts in [`scripts/`](scripts/) for local and CI/CD use.
+   - Flexible scripts in [`scripts/`](scripts/) for .NET project setup and linting.
 2. **Reusable Docker Images**
-   - Standardized [`Dockerfile.node`](images/Dockerfile.node) for consistent build environments.
+   - Standardized [`Dockerfile.dotnet`](images/Dockerfile.dotnet) for consistent .NET build environments.
 3. **Standardized Configuration Files**
-   - Centralized configs for ESLint and Prettier in [`config/`](config/).
-4. **GitHub Templates**
-   - Issue and PR templates in [`.github/`](.github/), plus optional `CODEOWNERS`.
+   - Centralized VS Code configs for launch and tasks in [`config/`](config/).
+4. **GitHub Templates & Workflows**
+   - Issue and PR templates, plus reusable workflows for CI, release, docs, security, and version management in [`.github/`](.github/).
 5. **Centralized Documentation Standards**
    - Boilerplate templates in [`docs/`](docs/) for README and contributing guidelines.
 6. **Shared License & Legal Templates**
    - Standard [`LICENSE`](LICENSE) for open-source projects.
+7. **Changelog & DocFX**
+   - [`CHANGELOG.md`](CHANGELOG.md) and [`docfx.json`](docfx.json) for documentation and release tracking.
+
 
 ## 🛠️ Usage
 
-### Call Reusable Workflows
-
-Reference workflows in your project's CI/CD file:
+Reference reusable workflows in your project's CI/CD file:
 
 ```yaml
 jobs:
   build:
-    uses: your-org/project-standards/.github/workflows/reusable-build.yml@main
+    uses: rmnavz/project-standards/.github/workflows/reusable-build.yml@main
 ```
-
-### Copy Files
 
 Copy configuration or template files:
 
 ```bash
-cp project-standards/config/.eslintrc.js your-project/
+cp project-standards/config/launch.json your-project/.vscode/launch.json
+cp project-standards/config/tasks.json your-project/.vscode/tasks.json
 cp project-standards/docs/README_TEMPLATE.md your-project/README.md
+cp project-standards/docs/CONTRIBUTING_TEMPLATE.md your-project/CONTRIBUTING.md
+cp project-standards/images/Dockerfile.dotnet your-project/Dockerfile
 ```
-
-### Symlink Configurations
 
 Create symbolic links to inherit updates:
 
 ```bash
-ln -s $(pwd)/project-standards/config/.prettierrc your-project/.prettierrc
+ln -s $(pwd)/project-standards/config/launch.json your-project/.vscode/launch.json
+ln -s $(pwd)/project-standards/config/tasks.json your-project/.vscode/tasks.json
 ```
 
 ## 🤝 Contributing
@@ -152,6 +161,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## 🗂️ Versioning & Changelog
 
 Updates to standards, templates, and scripts are tracked using git tags and releases. Major changes and improvements are documented in the `CHANGELOG.md` file (if present). For the latest updates, check the [Releases](https://github.com/rmnavz/project-standards/releases) page or view commit history.
+
 
 ## 💡 Request a New Standard or Template
 
